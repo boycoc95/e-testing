@@ -9,53 +9,26 @@ class CartController extends Controller
 
     public function addToCart($id)
     {
-        $product = Product::findOrFail($id);
-
-        $cart = session()->get('cart', []);
-
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-        } else {
-            $cart[$id] = [
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-                "image" => $product->image
-            ];
-        }
-
-        session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        \Cart::add(array(
+            'id' => 456, // inique row ID
+            'name' => 'Sample Item 2',
+            'price' => 67.99,
+            'quantity' => 4,
+            'attributes' => array()
+        ));
     }
 
-    public function updateCart(Request $request)
+    public function cart()
     {
-        if($request->id && $request->quantity){
-            $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
-            session()->put('cart', $cart);
-            session()->flash('success', 'Cart updated successfully');
-        }
+        $cartCollection = \Cart::getContent();
+
+        dd($cartCollection);
+       return response()->json([
+           "message" => "Get all cart success",
+           "data" => $cartCollection,
+       ]);
     }
 
-    public function removeFormCart(Request $request)
-    {
-        if($request->id) {
-            $cart = session()->get('cart');
-            if(isset($cart[$request->id])) {
-                unset($cart[$request->id]);
-                session()->put('cart', $cart);
-            }
-            session()->flash('success', 'Product removed successfully');
-        }
-    }
-
-    public function removeAllCart(Request $request)
-    {
-            $cart = session()->unset('cart');
-
-            return 'success';
-    }
 }
 
 

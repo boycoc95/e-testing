@@ -40,7 +40,7 @@ Route::group([
     Route::get('/category',[CategoryController::class, 'getCategory']);
 });
 
-Route::get('getCart',[CartController::class, 'getCart']);
-Route::get('add-cart',[CartController::class, 'addCart']);
+Route::get('cart',[CartController::class, 'cart']);
+//Route::get('add-cart',[CartController::class, 'addCart']);
 //Route::get('updateCart',[CartController::class, 'addCart']);
 //Route::get('removeCart',[CartController::class, 'addCart']);
